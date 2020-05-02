@@ -1,27 +1,31 @@
 <template>
   <div class="hello">
-    <section class="hero is-warning">
+    <section class="hero is-warning is-fullheight">
       <div class="hero-body">
           <div class="container">
-            <h1 class="title">
-              Pictionary!
-            </h1>
+            <p class="title">
+             Drunk Pictionary!
+            </p>
+            
             <h2 class="subtitle">
-              Drunk AG edition
+              AG edition
             </h2>
+            <p class="title" id="clock"></p>
+            <br />
+            <b-button rounded class="button is-light is-large" @click="generateWord">Generate Word</b-button>
+
           </div>
-          <br />
-            <button class="button is-light is-medium"
+            <!-- <button class="button rounded is-light is-large"
                 @click="generateWord">
                 Generate Word
-            </button>
-            <button class="button is-light is-medium"
-                @click="clear">
-                Clear
-            </button>
+            </button> -->
             <!-- <button @click="emitEvent">emit</button>
             <input type="text" v-model="message"/> -->
       </div>
+    <audio id="sound">
+      <source src="@/assets/Countdown.mp3" type="audio/mpeg">
+      Your browser is wack yo!
+    </audio>
     </section>
     
 <section class="info">
@@ -34,10 +38,16 @@
                         <h2>{{word}}</h2>
                     </div>
                 </div>
+                    <footer class="modal-card-foot">
+                        <button class="button is-primary" v-on:click="start">Start Timer</button>
+                    </footer>
             </div>
         </b-modal>
     </section>
-    <WhiteBoard :key="reload"/>
+    <section>
+      <p class="hero is-warning" id="clock"></p>
+    </section>
+    <!-- <WhiteBoard :key="reload"/> -->
   </div>
 </template>
 
@@ -50,6 +60,15 @@ export default {
   components: {
     WhiteBoard
   },
+  sockets: {
+    connect() {
+      console.log('socket connected')
+    },
+    timerSet() {
+      console.log('starting timer')
+      this.startTimer();
+    }
+  },
   data () {
     return {
       message: '',
@@ -59,27 +78,50 @@ export default {
     }
   },
   mounted() {
-    this.canvas = document.getElementById("whiteboard");
-    var ctx = this.canvas.getContext("2d");    
-    this.vueCanvas = ctx;
+    // this.canvas = document.getElementById("whiteboard");
+    // var ctx = this.canvas.getContext("2d");    
+    // this.vueCanvas = ctx;
 
-    let jitsi = document.createElement('script')
-    jitsi.setAttribute('src', 'https://meet.jit.si/external_api.js')
-    document.head.appendChild(jitsi)
+    // let jitsi = document.createElement('script')
+    // jitsi.setAttribute('src', 'https://meet.jit.si/external_api.js')
+    // document.head.appendChild(jitsi)
   },
   methods: {
     clear() {
-      this.reload +=1;
+      // this.reload +=1;
     },
     generateWord() {
       this.isCardModalActive = true
       var words = dictionary.split(/\r?\n/);
       this.word = words[Math.floor(Math.random()*words.length)];
     },
+    start() {
+      this.isCardModalActive = false
+      this.$socket.client.emit('start');
+      this.startTimer()
+    },
+    startTimer() {
+        var timeleft = 40;
+        var sound = document.getElementById("sound"); 
+        var downloadTimer = setInterval(function(){
+          if(timeleft <= 0){
+            clearInterval(downloadTimer);
+            document.getElementById("clock").innerHTML = "Times up!";
+          } else {
+            document.getElementById("clock").innerHTML = timeleft + " seconds remaining";
+          }
+          if(timeleft === 30) {
+            sound.play();
+            document.getElementById("clock").style.color = 'red';
+          }
+          timeleft -= 1;
+        }, 1000);
+        document.getElementById("clock").style.color = 'black';
+      }
+    }
     // emitEvent () {
     //   this.$socket.emit('hello', this.message)
     // }
-  }
 }
 </script>
 
@@ -109,5 +151,6 @@ a {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
 }
 </style>

@@ -5,14 +5,6 @@ const state = {
     toolArgs: {
         size: 2,
         color: '#000000'
-    },
-    eraserArgs: {
-        size: 2,
-        color: '#133337'
-    },
-    shapeArgs: {
-        size: 2,
-        color: '#000000'
     }
 };
 
@@ -23,20 +15,6 @@ const mutations = {
     },
     'SET_TOOL_SIZE'(state, toolSize) {
         state.toolArgs.size = toolSize;
-    },
-    //EraserArgs
-    'SET_ERASER_SIZE'(state, eraserSize) {
-        state.eraserArgs.size = eraserSize;
-    },
-    'SET_ERASER_COLOR'(state, eraserColor) {
-        state.eraserArgs.color = eraserColor;
-    },
-    //ShapesArgs
-    'SET_SHAPE_SIZE'(state, shapeSize) {
-        state.shapeArgs.size = shapeSize;
-    },
-    'SET_SHAPE_COLOR'(state, shapeColor) {
-        state.shapeArgs.color = shapeColor;
     },
     //Tool
     'SET_WHITEBOARD_TOOL'(state, tool) {
@@ -60,28 +38,6 @@ const actions = {
     }, toolSize) => {
         commit('SET_TOOL_SIZE', toolSize);
     },
-    //Eraser
-    setEraserSize: ({
-        commit
-    }, eraserSize) => {
-        commit('SET_ERASER_SIZE', eraserSize);
-    },
-    setEraserColor: ({
-        commit
-    }, eraserColor) => {
-        commit('SET_ERASER_COLOR', eraserColor);
-    },
-    //ShapeArgs
-    setShapeSize: ({
-        commit
-    }, shapeSize) => {
-        commit('SET_SHAPE_SIZE', shapeSize);
-    },
-    setShapeColor: ({
-        commit
-    }, shapeColor) => {
-        commit('SET_SHAPE_COLOR', shapeColor);
-    },
     //Tool
     setWhiteboardTool: ({
         commit
@@ -96,12 +52,6 @@ const getters = {
     },
     toolArgs(state) {
         return state.toolArgs;
-    },
-    eraserArgs(state) {
-        return state.eraserArgs;
-    },
-    shapeArgs(state) {
-        return state.shapeArgs;
     }
 }
 

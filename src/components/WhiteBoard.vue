@@ -1,21 +1,13 @@
 <template>
   <div>
     <canvas id="whiteboard" resize></canvas>
-    <!-- <mainPanel></mainPanel>
-    <historyPanel></historyPanel> -->
   </div>
 </template>
 
 <script>
 import paper from "paper";
-import MainPanel from "./panel/MainPanel";
-import HistoryPanel from "./panel/HistoryPanel";
 
 export default {
-  components: {
-    mainPanel: MainPanel,
-    historyPanel: HistoryPanel
-  },
   created() {
     paper.install(window);
   },

@@ -1,7 +1,7 @@
 <template>
-  <!-- <div id="app"> -->
+  <div id="app">
     <HelloWorld/>
-  <!-- </div> -->
+  </div>
 </template>
 
 <script>
@@ -10,6 +10,11 @@ export default {
   name: 'App',
   components: {
     HelloWorld
+  },
+  data () {
+    return {
+      message: ''
+    }
   }
 }
 </script>
@@ -21,6 +26,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  overflow: hidden;
 }
 </style>
